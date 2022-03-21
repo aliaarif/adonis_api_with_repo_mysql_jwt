@@ -8,6 +8,7 @@ class ProfilesSchema extends Schema {
     this.create('profiles', (table) => {
       table.increments()
       table.integer('user_id').unsigned()
+      table.integer('country').unsigned()
       table.timestamps()
     })
   }

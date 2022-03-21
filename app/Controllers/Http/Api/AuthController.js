@@ -57,6 +57,9 @@ class AuthController extends BaseController {
             }
 
             const user = await User.create(request.only(['name', 'email', 'username', 'password']))
+            user.roles().attach([1, 2])
+
+
             return response.ok(user)
 
             // let user = new User()

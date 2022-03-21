@@ -3,23 +3,14 @@
 const Model = use('Model')
 const moment = use('moment')
 
-class Profile extends Model {
+class ProductVariant extends Model {
     static get table() {
-        return 'profiles'
+        return 'product_variants'
     }
 
     static get primaryKey() {
         return 'id'
     }
-
-    static get foreignKey() {
-        return 'user_id'
-    }
-
-    user() {
-        return this.belongsTo('App/Models/Sql/User')
-    }
-
 }
 
-module.exports = Profile
+module.exports = ProductVariant

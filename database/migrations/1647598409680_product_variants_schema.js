@@ -7,6 +7,8 @@ class ProductVariantsSchema extends Schema {
   up() {
     this.create('product_variants', (table) => {
       table.increments()
+      table.integer('product_id').unsigned()
+      table.timestamps()
     })
   }
 

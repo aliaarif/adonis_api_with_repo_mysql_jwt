@@ -12,6 +12,11 @@ class Category extends Model {
         return 'id'
     }
 
+    product() {
+        return this.belongsTo('App/Models/Sql/Product')
+    }
+
+
     getCreatedAtAgo({ created_at }) {
         let formattedDate = moment(created_at).format(Config.get('constants.db_date_format'))
         return moment(formattedDate, Config.get('constants.db_date_format')).fromNow()

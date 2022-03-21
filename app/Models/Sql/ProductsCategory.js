@@ -3,9 +3,9 @@
 const Model = use('Model')
 const moment = use('moment')
 
-class UsersRole extends Model {
+class ProductsCategory extends Model {
     static get table() {
-        return 'users_roles'
+        return 'products_categories'
     }
 
     static get primaryKey() {
@@ -18,4 +18,4 @@ class UsersRole extends Model {
     // }
 }
 
-module.exports = UsersRole
+module.exports = ProductsCategory

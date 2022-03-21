@@ -7,6 +7,8 @@ class ProductDetailsSchema extends Schema {
   up() {
     this.create('product_details', (table) => {
       table.increments()
+      table.integer('product_id').unsigned()
+      table.timestamps()
     })
   }
 

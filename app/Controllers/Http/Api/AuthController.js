@@ -140,6 +140,7 @@ class AuthController extends BaseController {
         if (tokenFromSession === tokenFromEmail) {
             // user.verified_at = new Date()
             // user.save()
+            session.forget(`token-${this.id}`)
             return response.status(200).send({
                 status: 'success',
                 message: 'Go to dashboard'

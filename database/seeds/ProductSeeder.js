@@ -21,13 +21,15 @@ class ProductSeeder {
     async run() {
 
         // Products
-        const products = Factory.model('App/Models/Sql/Product').createMany(100)
+        const products = Factory.model('App/Models/Sql/Product').createMany(16)
 
         // Products Details
-        const productsDetails = Factory.model('App/Models/Sql/ProductDetail').createMany(100)
+        const productsDetails = Factory.model('App/Models/Sql/ProductDetail').createMany(16)
 
         // Products Variants
-        const productsVariants = Factory.model('App/Models/Sql/ProductVariant').createMany(100)
+        const productsVariants = Factory.model('App/Models/Sql/ProductVariant').createMany(16)
+
+        console.info('All Default Seeders run successfully')
 
     }
 }

@@ -115,13 +115,13 @@ class DefaultSeeder {
         // -------------------------//
 
         // Users
-        const users = Factory.model('App/Models/Sql/User').createMany(10);
+        const users = Factory.model('App/Models/Sql/User').createMany(1);
 
         // Profiles
-        const profiles = Factory.model('App/Models/Sql/Profile').createMany(10);
+        const profiles = Factory.model('App/Models/Sql/Profile').createMany(1);
 
         // Posts
-        const posts = Factory.model('App/Models/Sql/Post').createMany(10)
+        const posts = Factory.model('App/Models/Sql/Post').createMany(1)
 
     }
 }

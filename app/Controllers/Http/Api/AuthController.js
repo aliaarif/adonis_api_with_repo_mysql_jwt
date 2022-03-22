@@ -8,6 +8,7 @@ const User = use('App/Models/Sql/User')
 const Profile = use('App/Models/Sql/Profile')
 const Hash = use('Hash')
 const Mail = use('Mail')
+const Env = use('Env')
 
 class AuthController extends BaseController {
 
@@ -35,7 +36,7 @@ class AuthController extends BaseController {
 
 
 
-    async register({ request, response }) {
+    async register({ request, response, session }) {
         try {
             const name = request.input("name")
             const email = request.input("email")
@@ -70,51 +71,44 @@ class AuthController extends BaseController {
 
             registerAs === 'vendor' ? user.roles().attach([3]) : user.roles().attach([4])
 
-            // const sentVerifyEmail = await Mail.send('emails.welcome', {
-            //     name: "Ali"
-            // }, (message) => {
-            //     message.from('app@example.com')
-            //     message.to(user.email)
-            // })
+            //const hostname = request.hostname()
 
-            const sentVerifyEmail = await Mail.send('emails.welcome', user.toJSON(), (message) => {
-                message
-                    .to(user.email)
-                    .from('account@example.com')
-                    .subject('Welcome to Adonis 4.1 API')
-            })
+            user.sendVerificationEmail(session)
 
 
             return response.status(201).json({
                 status: 'ok',
                 message: 'User is registered',
                 success: user,
-                UserID: user['id'],
-                sentVerifyEmail: sentVerifyEmail
+                UserID: user['id']
             })
-
-
-
-            // return response.ok(user)
-
-            // let user = new User()
-            // user.name = name
-            // user.email = email
-            // user.username = username
-            // user.password = password
-            // let success = await user.save()
-
-            // return response.status(201).json({
-            //     status: 'ok',
-            //     message: 'User is registered',
-            //     success: user,
-            //     UserID: user['id']
-            // })
         } catch (error) {
             console.log(error.message)
             response.status(403).json({
                 status: 'error',
                 debug_error: error.message,
+            })
+        }
+    }
+
+    async verifyEmail({ response, session, auth }) {
+        try {
+
+            //const hostname = request.hostname()
+
+            auth.user.sendVerificationEmail(session)
+
+            return response.status(201).json({
+                status: 'ok',
+                message: 'User is registered',
+                success: auth.user,
+                UserID: auth.user['id']
+            })
+
+        } catch (error) {
+            return response.status(400).send({
+                status: 'error',
+                message: error
             })
         }
     }
@@ -135,6 +129,27 @@ class AuthController extends BaseController {
         }
     }
 
+
+    confirmEmail({ response, params, session }) {
+        const userid = params.userid
+        const tokenFromEmail = params.token
+        const tokenFromSession = session.get(`token-${userid}`)
+
+        const user = User.findOrFail(userid)
+
+        if (tokenFromSession === tokenFromEmail) {
+            // user.verified_at = new Date()
+            // user.save()
+            return response.status(200).send({
+                status: 'success',
+                message: 'Go to dashboard'
+            })
+        }
+        return response.status(422).send({
+            status: 'success',
+            message: 'Unauthorized'
+        })
+    }
 }
 
 module.exports = AuthController

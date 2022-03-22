@@ -29,8 +29,8 @@ module.exports = {
     host: Env.get('SMTP_HOST', 'smtp.mailtrap.io'),
     secure: false,
     auth: {
-      user: Env.get('MAIL_USERNAME', 'be084d5061ab8e'),
-      pass: Env.get('MAIL_PASSWORD', 'a62a088d57f0a6')
+      user: Env.get('MAIL_USERNAME', '642b155941488b'),
+      pass: Env.get('MAIL_PASSWORD', '6917587b1d42a1')
     },
     maxConnections: 5,
     maxMessages: 100,

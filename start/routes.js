@@ -20,6 +20,9 @@ Route.on('/').render('welcome')
 
 Route.group(() => {
 
+    Route.post('/auth/verify-email', 'Api/AuthController.verifyEmail')
+
+
     Route.resource('role', 'Api/RoleController')
     Route.resource('post', 'Api/PostController')
     Route.resource('category', 'Api/CategoryController')
@@ -43,8 +46,11 @@ Route.group(() => {
 
 }).prefix('api/v1/').middleware(['auth:jwt'])
 
+Route.get('/confirm-email/:userid/:token', 'Api/AuthController.confirmEmail').middleware(['auth:jwt'])
+
 
 Route.post('/auth/register', 'Api/AuthController.register')
+
 Route.post('/auth/login', 'Api/AuthController.login')
 Route.post('/auth/logout', 'Api/AuthController.logout')
 

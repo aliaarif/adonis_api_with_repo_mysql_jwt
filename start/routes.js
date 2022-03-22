@@ -41,19 +41,21 @@ Route.group(() => {
     // Route.resource('orderitem', 'Api/OrderItemController')
     // Order Related Routes Ends Here...
 
-}).prefix('api/v1/').middleware(['auth'])
+}).prefix('api/v1/').middleware(['auth:jwt'])
 
-Route.post('/auth/login', 'Api/AuthController.login')
+
 Route.post('/auth/register', 'Api/AuthController.register')
+Route.post('/auth/login', 'Api/AuthController.login')
+Route.post('/auth/logout', 'Api/AuthController.logout')
 
 // Route.get('product/:category_slug/:product_slug/', 'Api/ProductController.productInfo')
 // Route.resource('transaction', 'Api/TransactionController')
 // Route.resource('productdetail', 'Api/ProductDetailController')
 // Route.resource('emailtemplate', 'Api/EmailTemplateController')
 
-Route.get('logout', async ({ auth, response }) => {
-    await auth.logout()
-    response.redirect('login')
-})
+// Route.get('logout', async ({ auth, response }) => {
+//     await auth.logout()
+//     response.redirect('login')
+// })
 
 // Route.resource('usersrole', 'Api/UsersRoleController')

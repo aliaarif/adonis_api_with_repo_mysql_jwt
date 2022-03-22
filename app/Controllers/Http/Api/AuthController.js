@@ -2,8 +2,12 @@
 
 const userRepo = use('App/Repositories/UserRepository')
 const BaseController = use('BaseController')
+// import { HttpContextContract } from "@ioc:Adonis/Core/Context"
+// import { schema, rules } from "@ioc:Adonis/Core/Validator"
 const User = use('App/Models/Sql/User')
+const Profile = use('App/Models/Sql/Profile')
 const Hash = use('Hash')
+const Mail = use('Mail')
 
 class AuthController extends BaseController {
 
@@ -47,8 +51,6 @@ class AuthController extends BaseController {
 
             const userExists = await User.findBy('email', email)
 
-            console.log(userExists)
-
             if (userExists) {
                 return response.status(400).send({
                     status: 'error',
@@ -57,10 +59,43 @@ class AuthController extends BaseController {
             }
 
             const user = await User.create(request.only(['name', 'email', 'username', 'password']))
-            user.roles().attach([1, 2])
 
 
-            return response.ok(user)
+            const profile = new Profile()
+            profile.user_id = user.id
+            profile.country = 91
+            user.profile().save(profile)
+
+            const registerAs = request.input("register_as")
+
+            registerAs === 'vendor' ? user.roles().attach([3]) : user.roles().attach([4])
+
+            // const sentVerifyEmail = await Mail.send('emails.welcome', {
+            //     name: "Ali"
+            // }, (message) => {
+            //     message.from('app@example.com')
+            //     message.to(user.email)
+            // })
+
+            const sentVerifyEmail = await Mail.send('emails.welcome', user.toJSON(), (message) => {
+                message
+                    .to(user.email)
+                    .from('account@example.com')
+                    .subject('Welcome to Adonis 4.1 API')
+            })
+
+
+            return response.status(201).json({
+                status: 'ok',
+                message: 'User is registered',
+                success: user,
+                UserID: user['id'],
+                sentVerifyEmail: sentVerifyEmail
+            })
+
+
+
+            // return response.ok(user)
 
             // let user = new User()
             // user.name = name
@@ -80,6 +115,22 @@ class AuthController extends BaseController {
             response.status(403).json({
                 status: 'error',
                 debug_error: error.message,
+            })
+        }
+    }
+
+
+    async logout({ response, auth }) {
+        try {
+            let logout = await auth.logout()
+            return response.status(200).send({
+                status: 'success',
+                message: logout
+            })
+        } catch (error) {
+            return response.status(400).send({
+                status: 'error',
+                message: error
             })
         }
     }

@@ -25,11 +25,12 @@ const randomdId = randomFixedInteger(1)
 
 // Factory for User and Their Profiles Start Here...
 Factory.blueprint('App/Models/Sql/User', async (faker) => {
+  // Hash.make('password', 10)
   return {
     name: faker.name(),
     email: faker.email(),
     username: faker.username(),
-    password: Hash.make('password', 10)
+    password: 'password'
   }
 })
 

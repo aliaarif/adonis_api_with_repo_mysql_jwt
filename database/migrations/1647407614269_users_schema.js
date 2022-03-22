@@ -11,6 +11,7 @@ class UserSchema extends Schema {
       table.string('email', 200).notNullable().unique()
       table.string('username', 100).notNullable().unique()
       table.string('password', 100).notNullable()
+      table.dateTime("verified_at").defaultTo(null);
       table.dateTime("deleted_at").defaultTo(null);
       table.timestamps()
     })

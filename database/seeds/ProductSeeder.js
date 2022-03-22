@@ -3,7 +3,7 @@
 const { all } = require('@adonisjs/lucid/src/Lucid/Model')
 /*
 |--------------------------------------------------------------------------
-| DBSeeder
+| ProductSeeder
 |--------------------------------------------------------------------------
 |
 | Make use of the Factory instance to seed database with dummy data or
@@ -13,25 +13,12 @@ const { all } = require('@adonisjs/lucid/src/Lucid/Model')
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
 const Factory = use('Factory')
-const Role = use('App/Models/Sql/Role')
-const User = use('App/Models/Sql/User')
-const Profile = use('App/Models/Sql/Profile')
-const Post = use('App/Models/Sql/Post')
-
+// const User = use('App/Models/Sql/User')
 // const Database = use('Database')
 
 
-class DBSeeder {
+class ProductSeeder {
     async run() {
-
-        // Users
-        const users = Factory.model('App/Models/Sql/User').createMany(10);
-
-        // Profiles
-        const profiles = Factory.model('App/Models/Sql/Profile').createMany(10);
-
-        // Posts
-        const posts = Factory.model('App/Models/Sql/Post').createMany(10)
 
         // Products
         const products = Factory.model('App/Models/Sql/Product').createMany(100)
@@ -42,10 +29,7 @@ class DBSeeder {
         // Products Variants
         const productsVariants = Factory.model('App/Models/Sql/ProductVariant').createMany(100)
 
-
-
-
     }
 }
 
-module.exports = DBSeeder
+module.exports = ProductSeeder

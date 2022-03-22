@@ -10,7 +10,7 @@ class Authenticated {
      * @param {Request} ctx.request
      * @param {Function} next
      */
-    async handle({request, auth, response}, next) {
+    async handle({ request, auth, response }, next) {
         // call next to advance the request
         if (!auth.user) {
             return response.redirect('login')
@@ -18,8 +18,12 @@ class Authenticated {
         await next()
     }
 
-    async wsHandle({request, auth, response}, next) {
+    async wsHandle({ request, auth, response }, next) {
         if (!auth.user) {
+            //  return {
+            //     'status': false,
+            //     'message': 'Not Authorized'
+            // }
             return response.redirect('login')
         }
         await next()

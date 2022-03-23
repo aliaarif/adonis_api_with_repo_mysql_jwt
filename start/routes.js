@@ -16,20 +16,23 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+// Route.resource('test', 'Api/TestController')
+// Route.resource('role', 'Api/RoleController')
+// Route.resource('post', 'Api/PostController')
+// Route.resource('category', 'Api/CategoryController')
+// Route.resource('product', 'Api/ProductController')
+// Route.resource('profile', 'Api/ProfileController')
+
+// Order Related Routes Start Here...
+// Route.resource('order', 'Api/OrderController')
+// Route.resource('orderitem', 'Api/OrderItemController')
+// Order Related Routes Ends Here...
+
 Route.on('/').render('welcome')
 
 Route.group(() => {
 
-    Route.post('/auth/verify-email', 'Api/AuthController.verifyEmail')
-
-
-    Route.resource('role', 'Api/RoleController')
-    Route.resource('post', 'Api/PostController')
-    Route.resource('category', 'Api/CategoryController')
-    Route.resource('product', 'Api/ProductController')
-
     // User and their Profile Routes Start Here...
-    // Route.resource('profile', 'Api/ProfileController')
     Route.resource('user', 'Api/UserController')
         .validator(new Map([
             [['user.store'], ['SaveUser']],
@@ -37,22 +40,20 @@ Route.group(() => {
             [['user.delete'], ['DeleteUser']]
         ]))
     Route.delete('delete-all-users', 'Api/UserController.deleteAllUsers')
-    //  User and their Profile Routes End Here...
 
-    // Order Related Routes Start Here...
-    // Route.resource('order', 'Api/OrderController')
-    // Route.resource('orderitem', 'Api/OrderItemController')
-    // Order Related Routes Ends Here...
+    Route.post('auth/verify-email', 'Api/AuthController.verifyEmail')
+    Route.get('auth/confirm-email/:userid/:token', 'Api/AuthController.confirmEmail')
+    Route.post('auth/logout', 'Api/AuthController.logout')
+    //  User and their Profile Routes End Here...
 
 }).prefix('api/v1/').middleware(['auth:jwt'])
 
-Route.get('/confirm-email/:userid/:token', 'Api/AuthController.confirmEmail').middleware(['auth:jwt'])
 
 
-Route.post('/auth/register', 'Api/AuthController.register')
 
-Route.post('/auth/login', 'Api/AuthController.login')
-Route.post('/auth/logout', 'Api/AuthController.logout')
+Route.post('auth/register', 'Api/AuthController.register')
+Route.post('auth/login', 'Api/AuthController.login')
+
 
 // Route.get('product/:category_slug/:product_slug/', 'Api/ProductController.productInfo')
 // Route.resource('transaction', 'Api/TransactionController')

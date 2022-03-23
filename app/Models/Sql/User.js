@@ -35,8 +35,11 @@ class User extends Model {
         return [
             '@provider:Adonis/Acl/HasRole',
             '@provider:Adonis/Acl/HasPermission'
+
+            // '@rocketseat/adonis-acl/providers/AclProvider',
         ]
     }
+
 
     profile() {
         return this.hasOne('App/Models/Sql/Profile')

@@ -86,12 +86,12 @@ class User extends Model {
         const token = this.generateString(16).trim()
         session.put(`token-${this.id}`, token)
 
-        // this.tokens().user_id = this.id
-        // this.tokens().token = token
-        // this.tokens().type = 'email-verification'
-        // this.tokens().is_revoked = true
+        this.tokens().user_id = this.id
+        this.tokens().token = token
+        this.tokens().type = 'email-verification'
+        this.tokens().is_revoked = true
 
-        // this.tokens().save()
+        this.tokens().save()
 
         const url = `${Env.get('APP_URL', 'http://127.0.0.1:3333')}/confirm-email/${this.id}/${token}`
         Mail.send('emails.verify', {

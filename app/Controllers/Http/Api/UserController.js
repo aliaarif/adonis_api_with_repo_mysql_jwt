@@ -11,7 +11,6 @@ class UserController extends BaseController {
     super(userRepo)
   }
 
-
   /*DELETE ALL USERS FROM DATABASE*/
   deleteAllUsers = () => userRepo.deleteAllUsers()
 
